@@ -21,17 +21,19 @@ public class ApplicationFunctionalTest {
     }
 
     @Test
-    public void adicionaRegistroNoBancoDeDados() throws Exception {
+    public void adicionaRegistroNoBancoDeDados() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                SolucaoDoExercicio solucaoDoExercicio = new SolucaoDoExercicio("uma string qualquer");
 
-        SolucaoDoExercicio solucaoDoExercicio = new SolucaoDoExercicio("uma string qualquer");
+                Integer numeroDeRegistrosInicial = SolucaoDoExercicio.all().size();
 
-        Integer numeroDeRegistrosInicial = SolucaoDoExercicio.all().size();
+                SolucaoDoExercicio.create(solucaoDoExercicio);
 
-        SolucaoDoExercicio.create(solucaoDoExercicio);
+                int numeroDeRegistrosPosterior = SolucaoDoExercicio.all().size();
 
-        int numeroDeRegistrosPosterior = SolucaoDoExercicio.all().size();
-
-        assertThat(numeroDeRegistrosPosterior == numeroDeRegistrosInicial + 1);
-
+                assertThat(numeroDeRegistrosPosterior == numeroDeRegistrosInicial + 1);
+            }
+        });
     }
 }
