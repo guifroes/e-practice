@@ -1,12 +1,9 @@
 package funcional;
 
-import org.junit.runner.RunWith;
-import org.specs2.Specification;
-import org.specs2.runner.JUnitRunner;
+import models.SolucaoDoExercicio;
+import org.junit.Test;
 import play.libs.F;
-import org.junit.*;
 import play.test.TestBrowser;
-import org.junit.runner.RunWith;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static play.test.Helpers.*;
@@ -23,4 +20,18 @@ public class ApplicationFunctionalTest {
         });
     }
 
+    @Test
+    public void adicionaRegistroNoBancoDeDados() throws Exception {
+
+        SolucaoDoExercicio solucaoDoExercicio = new SolucaoDoExercicio("uma string qualquer");
+
+        Integer numeroDeRegistrosInicial = SolucaoDoExercicio.all().size();
+
+        SolucaoDoExercicio.create(solucaoDoExercicio);
+
+        int numeroDeRegistrosPosterior = SolucaoDoExercicio.all().size();
+
+        assertThat(numeroDeRegistrosPosterior == numeroDeRegistrosInicial + 1);
+
+    }
 }
